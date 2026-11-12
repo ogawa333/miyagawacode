@@ -1,0 +1,50 @@
+"use client";
+
+import { useId, type ReactNode } from "react";
+import { arrowPath, KOMA_VIEW } from "../lib/route/koma";
+import type { KomaMap, KomaGeometry } from "../lib/route/koma";
+import {stairTicks} from "../lib/route/stairs";
+import LandmarkLayer from "./landmark-layer";
+import SymbolLandmarkLayer from "./symbol-landmark-layer";
+import type {LandmarkPresentation,SymbolLimit} from "../lib/route/visual-landmarks";
+import type { KomaContext } from "../lib/route/context";
+export type ContextLayers={buildings:boolean;landmarks:boolean;details:boolean};
+
+function line(points: {x:number;y:number}[]) { return points.map(p=>p.x.toFixed(3)+","+p.y.toFixed(3)).join(" "); }
+export default function KomaFigure({ map, name, context, layers, compact=false, referenceGeometry, clipDetails=false, minimal=false, presentation="source", symbolLimit=2, children, mandatorySteps=false }: {map:KomaMap;name:string;context:KomaContext;layers:ContextLayers;compact?:boolean;referenceGeometry?:KomaGeometry;clipDetails?:boolean;minimal?:boolean;presentation?:LandmarkPresentation;symbolLimit?:SymbolLimit;children?:ReactNode;mandatorySteps?:boolean}) {
+  const id=useId().replaceAll(":","");
+  if(map.state==="held"&&!referenceGeometry)return (
+    <div className="koma-held" data-koma-held={compact?undefined:map.sequence} role="note">
+      <span aria-hidden="true">!</span><strong>このコマの図は確認待ちです</strong>
+      <p>近接した分岐や方向・形状の不足により、進む枝を確実に区別できません。{minimal?"周囲の状況を確認し、案内を受けてください。":"全体地図と根拠を確認してください。"}</p>
+    </div>
+  );
+  const branches=referenceGeometry?.branches??map.branches;
+  const incoming=branches.find(branch=>branch.arrival);
+  const outgoing=branches.find(branch=>branch.departure);
+  const inlet=incoming?.points.at(-1);
+  return (
+    <svg className="koma-figure" viewBox={`0 0 ${KOMA_VIEW.width} ${KOMA_VIEW.height}`} role="img" aria-labelledby={id+"-title "+id+"-desc"} data-koma-svg={compact||referenceGeometry?undefined:map.sequence} data-koma-thumb={compact&&!referenceGeometry?map.sequence:undefined} data-koma-reference={referenceGeometry?map.sequence:undefined}>
+      <title id={id+"-title"}>{"コマ"+map.sequence+" "+name}</title>
+      <desc id={id+"-desc"}>{referenceGeometry?"周辺30mの参照図です。短い枝には進入点・矢印を置きません。":map.kind==="return"?"入ってきた同じ道を戻ります。":map.kind==="start"?"出発点から青い矢印へ進みます。":map.kind==="finish"?"このコマが終了地点です。":"黒点のある道から入り、青い矢印の枝へ進みます。"} 元データに接続する枝は{branches.length}本。現地の通行・安全性は未確認です。</desc>
+      <defs><clipPath id={id+"-clip"}><rect x="9" y="9" width="282" height="232" rx="7"/></clipPath><marker id={id+"-arrow"} markerWidth="16" markerHeight="16" viewBox="0 0 10 10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="var(--route-next)"/></marker></defs>
+      <rect x="1" y="1" width="298" height="278" rx="14" fill="var(--route-background)"/>
+      <g clipPath={`url(#${id}-clip)`} pointerEvents="none">
+        {presentation==="source"&&layers.buildings&&context.buildings.map(b=><polygon key={b.id} data-context-building={b.id} points={line(b.points)} fill="var(--route-building)" stroke="var(--route-building-line)" strokeWidth="1"/>)}
+      </g>
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {branches.map(branch=><polyline key={branch.neighborNodeId} points={line(branch.points)} data-koma-branch={branch.neighborNodeId} stroke={branch.exit==="review"?"#aa7d33":branch.exit==="excluded"?"#8c958b":"var(--route-road)"} strokeWidth={7} strokeDasharray={branch.exit==="review"?"2 5":branch.exit==="excluded"?"6 5":undefined}/>)}
+        {incoming&&<polyline data-koma-inlet={incoming.neighborNodeId} points={line(incoming.points)} stroke="var(--route-inlet)" strokeWidth={7}/>}
+        {outgoing&&<polyline data-koma-exit={outgoing.neighborNodeId} points={line(referenceGeometry?outgoing.points:arrowPath(outgoing.points))} stroke="var(--route-next)" strokeWidth={4} markerEnd={referenceGeometry?undefined:`url(#${id}-arrow)`}/>}
+      </g>
+      {((presentation!=="roads"&&layers.details)||mandatorySteps)&&<g stroke="#6b5541" strokeWidth="1.3" pointerEvents="none" clipPath={clipDetails?`url(#${id}-clip)`:undefined}>{stairTicks(context.steps,mandatorySteps).map(t=><line key={t.key} data-context-steps={t.wayIds.join(",")} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}/>)}</g>}
+      {presentation==="source"&&layers.landmarks&&<LandmarkLayer features={context.landmarks} width={300} height={280} roads={branches.map(b=>b.points)} compact={compact}/>}
+
+      {presentation==="symbols"&&layers.landmarks&&<SymbolLandmarkLayer context={context} branches={branches} limit={symbolLimit}/>}
+      {children}
+      {inlet&&!referenceGeometry&&<circle cx={inlet.x} cy={inlet.y} r={6} fill="var(--route-inlet)" data-koma-inlet-dot="true"/>}
+      <circle cx={KOMA_VIEW.centerX} cy={KOMA_VIEW.centerY} r={map.kind==="start"?6:4} fill={map.kind==="start"?"var(--route-inlet)":"white"} stroke="var(--route-inlet)" strokeWidth={2}/>
+      {!compact&&!minimal&&<text x="150" y="263" textAnchor="middle" className="koma-orientation">{map.kind==="start"?"出る方向が上":map.kind==="finish"?"入ってきた道から、ここで終了":"入ってきた道が下"}</text>}
+    </svg>
+  );
+}
