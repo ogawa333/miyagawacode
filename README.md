@@ -47,6 +47,14 @@ node --version
 npm --version
 ~~~
 
+## GitHub Codespaces で開く
+
+1. GitHub で動かしたいブランチを選び、**Code → Codespaces → Create codespace** を選びます。
+2. 初回セットアップが完了すると、Node.js と依存関係が入り、デモコースが登録されています。ターミナルで `npm run dev` を実行します。
+3. **Ports** タブの `3000` を **Open in Browser** で開きます。運営者向け画面も動く開発環境のため、ポートは Private のまま使用してください。
+
+すでに作成済みの Codespace では対象ブランチの最新版を取得し、コマンドパレットで **Codespaces: Rebuild Container** を実行します。起動・デモの閲覧に API キーは不要です。
+
 ## ローカルで install → start → test → build
 
 ### 1. 依存をインストール
