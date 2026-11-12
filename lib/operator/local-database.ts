@@ -1,0 +1,79 @@
+import {mkdirSync} from "node:fs";
+import {dirname,resolve} from "node:path";
+import {DatabaseSync} from "node:sqlite";
+import {SpotError} from "../spots/editing.ts";
+export function openOperatorDatabase(path:string){
+    if(path!==":memory:")mkdirSync(dirname(resolve(path)),{recursive:true});
+    const db=new DatabaseSync(path,{timeout:2000});
+    try {
+      let version=Number(db.prepare("PRAGMA user_version").get()!.user_version);
+      if(version===0||version===1||version===2||version===3||version===4||version===5||version===6){
+        db.exec("BEGIN IMMEDIATE");
+        try{
+          // Another request may have initialized or migrated the file before this lock.
+          version=Number(db.prepare("PRAGMA user_version").get()!.user_version);
+          if(version===0){
+            if(db.prepare("SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().length)
+              throw new SpotError("unavailable","既存の保存ファイルの形式を確認してください。");
+            db.exec("CREATE TABLE spot_edits (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT;");
+            version=1;
+          }
+          if(version===1){
+            // Missing/foreign tables fail instead of being recreated with empty data.
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.exec("CREATE TABLE spot_deletions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT; PRAGMA user_version=2;");
+            version=2;
+          }
+          if(version===2){
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.prepare("SELECT id,value FROM spot_deletions LIMIT 0").all();
+            db.exec("CREATE TABLE rally_draft (slot TEXT PRIMARY KEY CHECK(slot='working'), value TEXT NOT NULL) STRICT; PRAGMA user_version=3;");
+            version=3;
+          }
+          if(version===3){
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.prepare("SELECT id,value FROM spot_deletions LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_draft LIMIT 0").all();
+            db.exec("CREATE TABLE rally_corrections (slot TEXT PRIMARY KEY CHECK(slot='working'), value TEXT NOT NULL) STRICT; PRAGMA user_version=4;");
+            version=4;
+          }
+          if(version===4){
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.prepare("SELECT id,value FROM spot_deletions LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_draft LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_corrections LIMIT 0").all();
+            db.exec("CREATE TABLE saved_courses (id TEXT PRIMARY KEY, fingerprint TEXT NOT NULL UNIQUE, value TEXT NOT NULL) STRICT; PRAGMA user_version=5;");
+            version=5;
+          }
+          if(version===5){
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.prepare("SELECT id,value FROM spot_deletions LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_draft LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_corrections LIMIT 0").all();
+            db.prepare("SELECT id,fingerprint,value FROM saved_courses LIMIT 0").all();
+            db.exec("CREATE TABLE course_publications (course_id TEXT PRIMARY KEY, fingerprint TEXT NOT NULL, published_at TEXT NOT NULL) STRICT; PRAGMA user_version=6;");
+            version=6;
+          }
+          if(version===6){
+            db.prepare("SELECT id,value FROM spot_edits LIMIT 0").all();
+            db.prepare("SELECT id,value FROM spot_deletions LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_draft LIMIT 0").all();
+            db.prepare("SELECT slot,value FROM rally_corrections LIMIT 0").all();
+            db.prepare("SELECT id,fingerprint,value FROM saved_courses LIMIT 0").all();
+            db.prepare("SELECT course_id,fingerprint,published_at FROM course_publications LIMIT 0").all();
+            db.exec("ALTER TABLE course_publications ADD COLUMN status TEXT NOT NULL DEFAULT 'published' CHECK(status IN ('published','withdrawn')); ALTER TABLE course_publications ADD COLUMN revision INTEGER NOT NULL DEFAULT 1 CHECK(revision>=1); ALTER TABLE course_publications ADD COLUMN changed_at TEXT NOT NULL DEFAULT ''; UPDATE course_publications SET changed_at=published_at; PRAGMA user_version=7;");
+            version=7;
+          }
+          db.exec("COMMIT");
+        }catch(error){try{db.exec("ROLLBACK")}catch{}throw error}
+      }
+      if(version!==7)throw new SpotError("unavailable","未対応のスポット保存形式です。保存ファイルを確認してください。");
+      db.prepare("SELECT slot,value FROM rally_draft LIMIT 0").all();
+      db.prepare("SELECT slot,value FROM rally_corrections LIMIT 0").all();
+      db.prepare("SELECT id,fingerprint,value FROM saved_courses LIMIT 0").all();
+      db.prepare("SELECT course_id,fingerprint,published_at,status,revision,changed_at FROM course_publications LIMIT 0").all();
+      return db;
+    }catch(error){db.close();throw error}
+  }
+
+export function getOperatorDatabasePath(){return process.env.SPOT_DB_PATH||resolve(process.cwd(),".local-data","operator-spots.sqlite")}

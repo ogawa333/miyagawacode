@@ -5,6 +5,7 @@ import { arrowPath, KOMA_VIEW } from "../lib/route/koma";
 import type { KomaMap, KomaGeometry } from "../lib/route/koma";
 import {stairTicks} from "../lib/route/stairs";
 import LandmarkLayer from "./landmark-layer";
+import {MapAtmosphere} from "./walk-atmosphere";
 import SymbolLandmarkLayer from "./symbol-landmark-layer";
 import type {LandmarkPresentation,SymbolLimit} from "../lib/route/visual-landmarks";
 import type { KomaContext } from "../lib/route/context";
@@ -29,6 +30,7 @@ export default function KomaFigure({ map, name, context, layers, compact=false, 
       <desc id={id+"-desc"}>{referenceGeometry?"周辺30mの参照図です。短い枝には進入点・矢印を置きません。":map.kind==="return"?"入ってきた同じ道を戻ります。":map.kind==="start"?"出発点から青い矢印へ進みます。":map.kind==="finish"?"このコマが終了地点です。":"黒点のある道から入り、青い矢印の枝へ進みます。"} 元データに接続する枝は{branches.length}本。現地の通行・安全性は未確認です。</desc>
       <defs><clipPath id={id+"-clip"}><rect x="9" y="9" width="282" height="232" rx="7"/></clipPath><marker id={id+"-arrow"} markerWidth="16" markerHeight="16" viewBox="0 0 10 10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="var(--route-next)"/></marker></defs>
       <rect x="1" y="1" width="298" height="278" rx="14" fill="var(--route-background)"/>
+      {minimal&&<MapAtmosphere id={id+"-atmosphere"}/>}
       <g clipPath={`url(#${id}-clip)`} pointerEvents="none">
         {presentation==="source"&&layers.buildings&&context.buildings.map(b=><polygon key={b.id} data-context-building={b.id} points={line(b.points)} fill="var(--route-building)" stroke="var(--route-building-line)" strokeWidth="1"/>)}
       </g>
