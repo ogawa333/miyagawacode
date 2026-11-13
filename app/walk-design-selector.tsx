@@ -24,7 +24,7 @@ const designs=[
 export type WalkDesign=typeof designs[number]["id"];
 const storageKey="miura-walk-design-v1";
 export function useWalkDesign(){
- const [design,setDesign]=useState<WalkDesign>("site");
+ const [design,setDesign]=useState<WalkDesign>("tsunosuke");
  useEffect(()=>{try{const value=localStorage.getItem(storageKey);if(designs.some(d=>d.id===value))setDesign(value as WalkDesign)}catch{/* The selection still works when storage is unavailable. */}},[]);
  function choose(value:WalkDesign){setDesign(value);try{localStorage.setItem(storageKey,value)}catch{/* Keep the current in-memory selection. */}}
  return [design,choose] as const;
