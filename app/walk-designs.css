@@ -207,14 +207,12 @@
 .walk-player[data-walk-design="tsunosuke"] .walk-icon-button{border:2px solid #427995;box-shadow:0 3px 0 #427995}
 .tsuna-adventure{display:flex;align-items:center;justify-content:center;gap:13px;min-height:142px;margin:-3px 0 -8px;pointer-events:none}
 .tsuna-hero{position:relative;width:110px;height:132px;flex:0 0 110px;display:grid;place-items:center}
-.tsuna-hero img{position:relative;width:103px;height:123px;object-fit:contain;mix-blend-mode:multiply;animation:tsuna-bob 3.5s ease-in-out infinite}
+.tsuna-hero img{position:relative;width:103px;height:123px;object-fit:contain;mix-blend-mode:normal;opacity:1;animation:tsuna-bob 3.5s ease-in-out infinite}
 .tsuna-hero-rays{position:absolute;width:112px;height:112px;border-radius:50%;background:repeating-conic-gradient(from 5deg,#edbd5740 0deg 12deg,transparent 12deg 30deg);border:1px dashed #d4b96e}
 .tsuna-spark{position:absolute;color:#b74434;font-size:24px}.tsuna-spark-one{left:-2px;top:13px}.tsuna-spark-two{right:-5px;bottom:9px;font-size:30px}
 .tsuna-adventure-copy{max-width:245px;min-width:0}.tsuna-kicker{display:block;font-size:9px;font-weight:700;letter-spacing:.09em;color:#41667a;margin-bottom:5px}
 .tsuna-adventure-copy strong{display:block;font-size:24px;font-weight:900;line-height:1.25;letter-spacing:.02em;color:#184a6a;text-shadow:1px 2px 0 #fffef2}
 .tsuna-adventure-copy strong>span{display:block;font-size:15px;color:#aa3032;margin-top:3px}
-.tsuna-adventure-copy p{position:relative;background:#fffdf0;border:1.5px solid #3e7894;border-radius:12px;padding:8px 10px;font-size:10px;font-weight:700;line-height:1.5;color:#254d64;margin:10px 0 0;box-shadow:2px 3px 0 #40728a20}
-.tsuna-adventure-copy p::before{content:"";position:absolute;left:-6px;top:13px;width:9px;height:9px;background:#fffdf0;border-left:1.5px solid #3e7894;border-bottom:1.5px solid #3e7894;transform:rotate(45deg)}
 .walk-player[data-walk-design="tsunosuke"] .walk-next{border:2px solid #fff2cb;border-radius:14px;box-shadow:0 5px 0 #7e272a,0 9px 16px #234f6b21;gap:9px;position:relative}
 .tsuna-next-fish{display:inline-grid;place-items:center;background:#fff0c9;color:#b62f30;width:27px;height:27px;border-radius:50%;font-size:17px}
 .walk-tsuna-adventure-scenery,.map-atmosphere-tsuna-adventure{display:none}
@@ -225,7 +223,7 @@
 .tsuna-map-emblem{color:#f2c565}
 @keyframes tsuna-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4px) rotate(1deg)}}
 @media(prefers-reduced-motion:reduce){.tsuna-hero img{animation:none}}
-@media(max-width:360px){.tsuna-adventure{gap:9px;min-height:124px}.tsuna-hero{width:90px;height:115px;flex-basis:90px}.tsuna-hero img{width:88px;height:105px}.tsuna-hero-rays{width:91px;height:91px}.tsuna-adventure-copy strong{font-size:21px}.tsuna-adventure-copy strong>span{font-size:13px}.tsuna-adventure-copy p{font-size:9px;padding:7px}.walk-player[data-walk-design="tsunosuke"] .walk-next{font-size:12px}}
+@media(max-width:360px){.tsuna-adventure{gap:9px;min-height:124px}.tsuna-hero{width:90px;height:115px;flex-basis:90px}.tsuna-hero img{width:88px;height:105px}.tsuna-hero-rays{width:91px;height:91px}.tsuna-adventure-copy strong{font-size:21px}.tsuna-adventure-copy strong>span{font-size:13px}.walk-player[data-walk-design="tsunosuke"] .walk-next{font-size:12px}}
 
 /* Keep the character corner clear; the remaining fish stay behind the character scenery. */
 .walk-player[data-map-design="tsunosuke"] .map-atmosphere-fish-corner{display:none}

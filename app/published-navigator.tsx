@@ -20,7 +20,7 @@ export default function PublishedNavigator({course}:{course:PublishedCourse}){
  return <section className={"walk-player"+(hasNotice?" has-walk-notice":"")} aria-label="コマ地図" data-walk-design={design} data-map-design={mapDesign==="follow"?design:mapDesign} data-published-navigator data-published-count={course.cards.length} onKeyDown={key}>
   <WalkAtmosphere/>
   <header className="walk-toolbar"><a href="/courses" className="walk-icon-button" aria-label="コース一覧へ戻る"><Arrow back/></a><p className="walk-counter" role="status" aria-live="polite"><span className="walk-sr-only">コマ </span><strong>{String(map.sequence).padStart(2,"0")}</strong><span aria-hidden="true"> / </span><span className="walk-sr-only">全 </span>{course.cards.length}</p><button type="button" className="walk-icon-button" aria-label="地図の見方と設定" data-walk-help onClick={()=>help.current?.showModal()}><span aria-hidden="true">?</span></button></header>
-  <WalkDesignStamp design={design} sequence={map.sequence}/>
+  <WalkDesignStamp design={design}/>
   <div className="walk-stage">
    <div className="walk-canvas" ref={frame} tabIndex={-1} aria-label={"コマ "+map.sequence} data-published-frame={map.sequence} onPointerDown={down} onPointerUp={up} onPointerCancel={()=>{gesture.current=null}}>
     {(mapDesign==="tsunosuke"||(mapDesign==="follow"&&design==="tsunosuke"))&&<TsunosukeMapPennant/>}
