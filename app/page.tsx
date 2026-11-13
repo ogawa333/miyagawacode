@@ -17,14 +17,12 @@ export default function HomePage(){
         <Image className="home-hero-photo" src="/mainphotos/hantoupic.jpg" alt="海に囲まれた三崎・城ヶ島の風景" fill priority sizes="100vw"/>
         <div className="home-hero-shade"/>
         <div className="home-hero-content"><div className="home-hero-copy">
-          <p className="home-kicker">MIURA WALKING RALLY</p>
           <h1 id="home-title">ひとコマ先に、<br/>知らない三浦。</h1>
-          <p className="home-hero-lead">道のかたちと目印を頼りに、海辺のまちを探検。<br className="desktop-break"/>スマホひとつで楽しむ、コマ地図ウォーキングラリー。</p>
+          <p className="home-hero-lead">コマ地図を頼りに、三崎・城ヶ島を歩こう。<br/>スマホのブラウザだけで楽しめます。</p>
           <div className="home-actions">
-            <Link className="experience-button coral" href="/courses" data-home-participant>参加する<ArrowIcon/></Link>
-            <Link className="experience-button outline-light" href="/operator" data-home-operator>コースをつくる<ArrowIcon/></Link>
+            <Link className="experience-button coral" href="/courses" data-home-participant>コースを選んで参加する<ArrowIcon/></Link>
           </div>
-          <p className="home-hero-note">三崎・城ヶ島から、まちの奥へ。</p></div><div className="home-hero-demo"><HomeDemo cards={demo.cards}/></div>
+          </div><div className="home-hero-demo"><HomeDemo cards={demo.cards}/></div>
         </div>
         <a className="home-scroll" href="#how-it-works">楽しみ方を見る<span aria-hidden="true">↓</span></a>
         <span className="home-photo-caption">MIURA, KANAGAWA</span>
@@ -55,7 +53,7 @@ export default function HomePage(){
         <div className="home-section-top"><div><p className="eyebrow">LET'S GET STARTED</p><h2 id="entry-title">歩く人も、つくる人も。</h2></div><p>あなたは、どちらから楽しみますか？</p></div>
         <div className="home-role-grid">
           <article className="home-role participant-role"><span className="home-role-label">参加者の方へ</span><h3>次の角を、<br/>楽しみにしよう。</h3><p>公開されたコースから選んで、<br/>コマ地図を頼りに三浦を探検。</p><Link className="experience-button light" href="/courses">コースを探す<ArrowIcon/></Link></article>
-          <article className="home-role operator-role"><span className="home-role-label">運営者の方へ</span><h3>まちの魅力を、<br/>ひとつのコースに。</h3><p>スポットを選んで、ルートとコマ地図を生成。<br/>確認・保存して、参加者に届けよう。</p><Link className="experience-button dark" href="/operator">コースづくりをはじめる<ArrowIcon/></Link></article>
+          <article className="home-role operator-role"><span className="home-role-label">運営者の方へ</span><h3>まちの魅力を、<br/>ひとつのコースに。</h3><p>スポットを選んで、ルートとコマ地図を生成。<br/>確認・保存して、参加者に届けよう。</p><Link className="experience-button dark" href="/operator" data-home-operator>コースづくりをはじめる<ArrowIcon/></Link></article>
         </div>
         <p className="home-safety">現在は試用版です。現地の入口・通行・安全性は確認待ちです。歩くときは周囲を確かめ、画面の操作は安全な場所で立ち止まって行ってください。</p>
       </section>
