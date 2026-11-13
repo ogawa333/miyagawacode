@@ -227,5 +227,3 @@
 
 /* Keep the character corner clear; the remaining fish stay behind the character scenery. */
 .walk-player[data-map-design="tsunosuke"] .map-atmosphere-fish-corner{display:none}
-
-.tsuna-hero-filter{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
