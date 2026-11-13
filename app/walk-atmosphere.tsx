@@ -22,12 +22,12 @@ export function MapAtmosphere({id}:{id:string}){
  return <g className="map-atmosphere" aria-hidden="true" pointerEvents="none">
   <defs><clipPath id={id}><rect x="2" y="2" width="296" height="276" rx="13"/></clipPath></defs>
   <g clipPath={`url(#${id})`}>
-   <LocalMapScenery/><NatureMapScenery/><DonburiMapScenery/><TsunosukeMapScenery/>
+   <LocalMapScenery/><NatureMapScenery/><DonburiMapScenery/>
    <g className="map-atmosphere-ocean">
     <path d="M0 240Q38 223 76 240t76 0 76 0 76 0V280H0Z" fill="var(--scene-wave-light)"/>
     <path d="M0 257Q38 241 76 257t76 0 76 0 76 0V280H0Z" fill="var(--scene-wave)"/>
     <path d="M9 27q10-8 20 0t20 0M231 23q10-8 20 0t20 0M15 248q11-7 22 0t22 0M194 263q11-7 22 0t22 0" stroke="var(--scene-foam)" strokeWidth="1.4" fill="none"/>
-    <g className="map-atmosphere-fish"><Tuna x={255} y={49} scale={.48} flip/><Tuna x={36} y={215} scale={.42}/><Tuna x={257} y={258} scale={.46}/></g>
+    <g className="map-atmosphere-fish"><g className="map-atmosphere-fish-corner"><Tuna x={255} y={49} scale={.48} flip/></g><Tuna x={36} y={215} scale={.42}/><Tuna x={257} y={258} scale={.46}/></g>
     <g fill="none" stroke="var(--scene-bubble)" strokeWidth=".9"><circle cx="275" cy="199" r="4"/><circle cx="282" cy="186" r="2.5"/><circle cx="20" cy="69" r="3"/><circle cx="25" cy="59" r="1.5"/></g>
    </g>
    <g className="map-atmosphere-sakura">
@@ -36,6 +36,7 @@ export function MapAtmosphere({id}:{id:string}){
     <g fill="var(--scene-petal)"><path d="M17 38q16-1 8 16-13-4-8-16M266 218q15 1 7 16-13-5-7-16M73 260q16-3 9 14-13-2-9-14M225 57q11-2 6 10-9-1-6-10"/></g>
     <path d="M0 272q72-18 150 0t150-2v12H0Z" fill="var(--scene-petal-bed)"/>
    </g>
+   <TsunosukeMapScenery/>
   </g>
  </g>;
 }

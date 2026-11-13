@@ -226,3 +226,6 @@
 @keyframes tsuna-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4px) rotate(1deg)}}
 @media(prefers-reduced-motion:reduce){.tsuna-hero img{animation:none}}
 @media(max-width:360px){.tsuna-adventure{gap:9px;min-height:124px}.tsuna-hero{width:90px;height:115px;flex-basis:90px}.tsuna-hero img{width:88px;height:105px}.tsuna-hero-rays{width:91px;height:91px}.tsuna-adventure-copy strong{font-size:21px}.tsuna-adventure-copy strong>span{font-size:13px}.tsuna-adventure-copy p{font-size:9px;padding:7px}.walk-player[data-walk-design="tsunosuke"] .walk-next{font-size:12px}}
+
+/* Keep the character corner clear; the remaining fish stay behind the character scenery. */
+.walk-player[data-map-design="tsunosuke"] .map-atmosphere-fish-corner{display:none}
