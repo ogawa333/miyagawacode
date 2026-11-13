@@ -19,6 +19,6 @@ export default function OperatorKomaDisplay({map,context,referenceContext,name,l
   {!minimal&&<p className="operator-koma-status">{display?"近接した分岐を拡大表示":"近接した分岐・表示を確認"}<small>元の枝・形状を保った表示です。入口・通行・安全性は現地未確認です。</small></p>}
   <div className="operator-koma-primary" ref={primary}>{width===null?<p role="status">図の表示幅を確認しています…</p>:display?<KomaFigure map={display.map} name={name} context={display.context} layers={layers} minimal={minimal} presentation={presentation} symbolLimit={symbolLimit} clipDetails/>:<KomaFigure map={map} name={name} context={context} layers={layers} minimal={minimal} presentation={presentation} symbolLimit={symbolLimit}/>}</div>
   {!minimal&&<p className="preview-caption">{display?"見切れる目印や周辺の道路は30mの参照図で確認できます。":"この表示幅では記号を確実に区別できません。図の保留を継続します。"}枝端は隣の分岐や表示範囲で止めています。道路がそこで終わるとは限りません。</p>}
-  <details data-koma-reference-toggle><summary>{minimal?"周辺図を見る":"周辺30mの参照図を開く"}</summary><KomaFigure map={map} referenceGeometry={map.shortGeometry} name={name} context={referenceContext} layers={layers} minimal={minimal} presentation={presentation} symbolLimit={symbolLimit}/>{!minimal&&<p className="preview-caption">道路と目印を確認する参照図です。短い枝には進入点・矢印を置いていません。</p>}</details>
+  {!minimal&&<details data-koma-reference-toggle><summary>周辺30mの参照図を開く</summary><KomaFigure map={map} referenceGeometry={map.shortGeometry} name={name} context={referenceContext} layers={layers} presentation={presentation} symbolLimit={symbolLimit}/><p className="preview-caption">道路と目印を確認する参照図です。短い枝には進入点・矢印を置いていません。</p></details>}
  </div>;
 }

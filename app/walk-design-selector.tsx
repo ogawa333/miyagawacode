@@ -24,7 +24,7 @@ const designs=[
 export type WalkDesign=typeof designs[number]["id"];
 const storageKey="miura-walk-design-v1";
 export function useWalkDesign(){
- const [design,setDesign]=useState<WalkDesign>("site");
+ const [design,setDesign]=useState<WalkDesign>("tsunosuke");
  useEffect(()=>{try{const value=localStorage.getItem(storageKey);if(designs.some(d=>d.id===value))setDesign(value as WalkDesign)}catch{/* The selection still works when storage is unavailable. */}},[]);
  function choose(value:WalkDesign){setDesign(value);try{localStorage.setItem(storageKey,value)}catch{/* Keep the current in-memory selection. */}}
  return [design,choose] as const;
@@ -56,15 +56,15 @@ export function DesignMark({kind}:{kind:typeof designs[number]["icon"]}){
   {kind==="wave"?<><circle cx="77" cy="12" r="6" fill="currentColor" opacity=".35"/><path d="M4 28c12-14 20 14 32 0s20 14 32 0 20 14 30 0M4 39c12-14 20 14 32 0s20 14 32 0 20 14 30 0" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></>:kind==="fish"?<><path d="M18 25C34 5 61 5 76 24L94 12l-4 13 4 13-18-12C58 44 34 43 18 25Z" fill="currentColor"/><path d="m46 12 9-9 5 12M44 37l10 8 4-11" fill="currentColor"/><circle cx="31" cy="23" r="2" fill="var(--preview-paper)"/><path d="M42 17q-5 8 0 16" stroke="var(--preview-paper)" strokeWidth="1.5"/></>:<><path d="M25 39V23h44V8" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="25" cy="39" r="4" fill="currentColor"/><path d="m62 14 7-7 7 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/><path d="M7 23h10m60 0h16M48 5v10m0 16v11" stroke="currentColor" opacity=".25" strokeWidth="3" strokeLinecap="round"/></>}
  </svg>;
 }
-export function WalkDesignStamp({design,sequence=1}:{design:WalkDesign;sequence?:number}){
- if(design==="tsunosuke")return <TsunosukeAdventure sequence={sequence}/>;
+export function WalkDesignStamp({design}:{design:WalkDesign}){
+ if(design==="tsunosuke")return <TsunosukeAdventure/>;
  const selected=designs.find(d=>d.id===design)!;
  const taglines={donburi:"おいしい三崎を、ひとコマずつ。",lighthouse:"灯台のあかりと、岩礁の島へ。",watermelon:"夏の実りと、はじけるおさんぽ。",forest:"赤いカニと、木漏れ日の探検へ。",tsunosuke:"海風と、まぐろのまちを探検。",miuran:"桜の風にのって、まちをおさんぽ。",farm:"葉っぱの風と、畑のまちへ。",retro:"路地の向こうに、懐かしい三崎。",festival:"扇と五色に誘われて、まちめぐり。"};
  return <div className="walk-design-stamp" aria-hidden="true"><DesignMark kind={selected.icon}/><span>{design==="miuran"||design==="farm"||design==="retro"||design==="festival"||design==="lighthouse"||design==="watermelon"||design==="forest"||design==="donburi"?<><strong>{selected.name}</strong><small>{taglines[design]}</small></>:design==="sea"?"SEASIDE WALK":design==="tuna"?"MISAKI TUNA WALK":"MIURA WALKING RALLY"}</span></div>;
 }
 export function MapCharacterBadge({design,screen}:{design:WalkDesign;screen:WalkDesign}){
- if((design!=="tsunosuke"&&design!=="miuran")||design===screen)return null;
- return <div className="walk-map-character" aria-hidden="true"><DesignMark kind={design}/><span>{design==="tsunosuke"?"三浦ツナ之介":"みうらん"}</span></div>;
+ if(design!=="miuran"||design===screen)return null;
+ return <div className="walk-map-character" aria-hidden="true"><DesignMark kind={design}/><span>みうらん</span></div>;
 }
 export default function WalkDesignSelector({value,onChange}:{value:WalkDesign;onChange:(value:WalkDesign)=>void}){
  return <fieldset className="walk-design-selector"><legend>画面のデザイン</legend><p className="walk-design-intro">今日の気分で、歩く画面を着替えよう。</p><div className="walk-design-options">
