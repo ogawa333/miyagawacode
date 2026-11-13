@@ -76,3 +76,22 @@
 }
 @media(max-width:360px){.home-hero-content{padding:27px 18px 21px;gap:19px}.home-hero h1{font-size:32px}.home-hero-lead{font-size:10px}.home-hero .home-actions .experience-button{font-size:10px;padding:9px 10px}.home-demo{max-width:260px}.home-demo-caption p{font-size:10px}.home-demo-source{font-size:7px}.home-creation-grid>li{grid-template-columns:110px minmax(0,1fr);gap:13px}.creation-visual{height:132px}.creation-step-copy h3{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.home-demo-track.is-animating{transition:none}.home-demo-progress .is-running{animation:none}.home-demo-dots button span{transition:none}}
+
+/* Participant landing: one clear entry before secondary information. */
+.home-header-wrap{padding-top:4px;padding-bottom:4px}
+.home-header-wrap .site-header[data-site-header="home"]{min-height:52px;gap:12px}
+.home-header-wrap .experience-mark{width:32px;height:32px;border-radius:9px}
+.home-header-wrap .experience-mark svg{width:24px;height:24px}
+.home-header-wrap .experience-brand>span{font-size:14px}
+.home-hero .home-actions{display:block;max-width:360px;margin-top:24px}
+.home-hero .home-actions .experience-button{display:flex;width:100%;min-width:0;min-height:56px;padding:14px 18px;justify-content:space-between;gap:12px;font-size:15px;line-height:1.5;white-space:nowrap}
+.home-hero .home-actions .experience-button svg{flex-shrink:0}
+@media(max-width:700px){
+ .home-header-wrap{padding:4px 20px}
+ .home-hero-content{padding:28px 22px 24px;gap:28px}
+ .home-hero h1{font-size:clamp(30px,8.8vw,36px);line-height:1.4;margin-bottom:16px}
+ .home-hero .home-hero-lead{font-size:13px;line-height:1.85}
+ .home-hero .home-actions{max-width:none;margin-top:22px}
+ .home-hero .home-actions .experience-button{font-size:14px;min-height:54px}
+}
+@media(max-width:360px){.home-header-wrap .experience-brand>span{font-size:12px}.home-hero .home-actions .experience-button{font-size:13px;padding:13px 14px}}
