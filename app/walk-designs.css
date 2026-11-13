@@ -214,7 +214,6 @@
 .tsuna-adventure-copy strong{display:block;font-size:24px;font-weight:900;line-height:1.25;letter-spacing:.02em;color:#184a6a;text-shadow:1px 2px 0 #fffef2}
 .tsuna-adventure-copy strong>span{display:block;font-size:15px;color:#aa3032;margin-top:3px}
 .walk-player[data-walk-design="tsunosuke"] .walk-next{border:2px solid #fff2cb;border-radius:14px;box-shadow:0 5px 0 #7e272a,0 9px 16px #234f6b21;gap:9px;position:relative}
-.tsuna-next-fish{display:inline-grid;place-items:center;background:#fff0c9;color:#b62f30;width:27px;height:27px;border-radius:50%;font-size:17px}
 .walk-tsuna-adventure-scenery,.map-atmosphere-tsuna-adventure{display:none}
 .walk-player[data-walk-design="tsunosuke"] .walk-tsuna-adventure-scenery,.walk-player[data-map-design="tsunosuke"] .map-atmosphere-tsuna-adventure{display:initial}
 .walk-player[data-map-design="tsunosuke"] .koma-figure{--map-frame:#286681;--map-label:#fffdf0;--map-label-line:#457e9c;--map-name:#193f5a;--map-symbol:#b53430;--scene-wave:#92c9db;--scene-wave-light:#c1e5f0}
