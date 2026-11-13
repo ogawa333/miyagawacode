@@ -63,8 +63,8 @@ export function WalkDesignStamp({design}:{design:WalkDesign}){
  return <div className="walk-design-stamp" aria-hidden="true"><DesignMark kind={selected.icon}/><span>{design==="miuran"||design==="farm"||design==="retro"||design==="festival"||design==="lighthouse"||design==="watermelon"||design==="forest"||design==="donburi"?<><strong>{selected.name}</strong><small>{taglines[design]}</small></>:design==="sea"?"SEASIDE WALK":design==="tuna"?"MISAKI TUNA WALK":"MIURA WALKING RALLY"}</span></div>;
 }
 export function MapCharacterBadge({design,screen}:{design:WalkDesign;screen:WalkDesign}){
- if((design!=="tsunosuke"&&design!=="miuran")||design===screen)return null;
- return <div className="walk-map-character" aria-hidden="true"><DesignMark kind={design}/><span>{design==="tsunosuke"?"三浦ツナ之介":"みうらん"}</span></div>;
+ if(design!=="miuran"||design===screen)return null;
+ return <div className="walk-map-character" aria-hidden="true"><DesignMark kind={design}/><span>みうらん</span></div>;
 }
 export default function WalkDesignSelector({value,onChange}:{value:WalkDesign;onChange:(value:WalkDesign)=>void}){
  return <fieldset className="walk-design-selector"><legend>画面のデザイン</legend><p className="walk-design-intro">今日の気分で、歩く画面を着替えよう。</p><div className="walk-design-options">
